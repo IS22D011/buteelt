@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Барааны жагсаалт</title>
+</head>
+<body>
+    <h1>Бараа нэмэх</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Хадгалах</button>
+    </form>
+
+    <h2>Барааны жагсаалт</h2>
+    <ul>
+        {% for b in baraa_list %}
+            <li>{{ b.name }}: {{ b.category }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
