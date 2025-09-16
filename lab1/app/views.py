@@ -14,3 +14,10 @@ def index(request):
 
     return render(request, 'index.html', {'form': form, 'baraa_list': baraa_list})
 
+def contact():
+    return render('contact.html')
+
+def resume():
+    return render('resume.html')
+def project():
+    return render('project.html')
