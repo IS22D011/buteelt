@@ -62,15 +62,15 @@
 						<i class="fa fa-bars"></i> All category 
 					</button>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" href="#">Machinery</a>
-						<a class="dropdown-item" href="#">Electronics</a>
-						<a class="dropdown-item" href="#">Transportation</a>
-						<a class="dropdown-item" href="#">Apparel</a>
-						<a class="dropdown-item" href="#">Home & Garden</a>
-						<a class="dropdown-item" href="#">Beauty & Health</a> 
+						{% for cat in categories %}
+							<a class="dropdown-item" href="{% url 'store' %}?category={{ cat.slug }}">
+								{{ cat.category_name }}
+							</a>
+						{% endfor %}
 					</div>
 				</div>
 			</div>
+
 			<a href="/store" class="btn btn-outline-primary">Store</a>
 			<div class="col-lg col-md-6 col-sm-12 col">
 				<form action="#" class="search">

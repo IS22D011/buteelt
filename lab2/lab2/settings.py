@@ -76,8 +76,12 @@ WSGI_APPLICATION = 'lab2.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',  # PostgreSQL ашиглана
+        'NAME': 'buteelt',        # Өгөгдлийн сангийн нэр
+        'USER': 'postgres',    # PostgreSQL хэрэглэгчийн нэр
+        'PASSWORD': '1230',    # Нууц үг
+        'HOST': 'localhost',   # Серверийн хаяг (local бол localhost)
+        'PORT': '5432',        # Порт (default = 5432)
     }
 }
 

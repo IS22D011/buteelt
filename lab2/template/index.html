@@ -2,7 +2,6 @@
 {% load static %}
 
 {% block header %}
-
 {% endblock %}
 
 {% block content %}
@@ -24,18 +23,39 @@
 </header>
 	
 <div class="row">
+	{% for product in products %}
 	<div class="col-md-3">
 		<div class="card card-product-grid">
-			<a href="/product_detail" class="img-wrap"> 
-				<img src="{% static 'images/items/1.jpg' %}"> 
+			<a href="{% url 'product_detail' product.id %}" class="img-wrap"> 
+				<img src="{{ product.images.url }}" class="img-fluid"> 
 			</a>
 			<figcaption class="info-wrap">
-				<a href="/product_detail" class="title">Just another product name</a>
-				<div class="price mt-1">$179.00</div>
+				<a href="{% url 'product_detail' product.id %}" class="title">{{ product.product_name }}</a>
+				<div class="price mt-1">${{ product.price }}</div>
+				<div class="text-muted">Category: {{ product.category.category_name }}</div>
 			</figcaption>
 		</div>
 	</div>
-	<!-- бусад бүтээгдэхүүнүүдийг мөн адил... -->
+	{% endfor %}
+</div>
+
+<header class="section-heading">
+	<h3 class="section-title">Categories</h3>
+</header>
+
+<div class="row">
+	{% for cat in categories %}
+	<div class="col-md-3">
+		<div class="card card-product-grid">
+			<a href="{% url 'store' %}?category={{ cat.slug }}" class="img-wrap"> 
+				<img src="{{ cat.cat_image.url }}" class="img-fluid ">
+			</a>
+			<figcaption class="info-wrap">
+				<a href="{% url 'store' %}?category={{ cat.slug }}" class="title">{{ cat.category_name }}</a>
+			</figcaption>
+		</div>
+	</div>
+	{% endfor %}
 </div>
 </div>
 </section>
