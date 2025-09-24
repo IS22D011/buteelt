@@ -24,4 +24,4 @@ class Product(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.product_name
+        return self.images.url
