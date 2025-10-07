@@ -18,4 +18,5 @@ urlpatterns = [
 
     # slug ашиглаж detail харуулах
     path("product/<slug:slug>/", views.product_detail, name='product_detail'),
+    path("category/<slug:slug>/", views.show_category, name='show'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -6,13 +6,14 @@ def index(request):
     with connection.cursor() as cursor:
         # Product хүснэгтээс 4 ширхэг идэвхтэй бүтээгдэхүүн
         cursor.execute("""
-            SELECT * FROM app_product
+            SELECT b.product_name as product_name, b.price as price, b.images as images, d.category_name as category_name, b.slug as slug   
+            FROM app_product b
+            INNER JOIN app_category d ON b.category_id=d.id
             WHERE is_available = TRUE
-            ORDER BY id DESC
-            LIMIT 8
+            ORDER BY b.id DESC
+            LIMIT 4
         """)
         products = dict_fetchall(cursor) #Cursor-аас авсан category-уудыг dictionary list болгон хадгална.
-
         # Category хүснэгтээс бүх category
         cursor.execute("SELECT * FROM app_category")
         categories = dict_fetchall(cursor)
@@ -60,8 +61,21 @@ def store(request):
     return render(request, 'store.html', {
         'products': products,
         'categories': categories,
-        'product_count': product_count
+        'product_count': product_count  
     })
 
 def place_order(request):
     return render(request, 'place_order.html')
+
+def show_category(request, slug):
+    category = get_object_or_404(Category, slug = slug)
+    product = Product.objects.filter(category = category, is_available =True)
+    categories = Category.objects.all()
+    context= {
+        'category':category,
+        'products': product,
+        'categories': categories,
+        'product_count': product.count()
+    }
+    return render(request, 'store.html', context)
+
