@@ -4,62 +4,108 @@
 {% block content %}
 
 <section class="section-pagetop bg">
-<div class="container">
-	<h2 class="title-page">Our Store</h2>
-</div>
+  <div class="container">
+    <h2 class="title-page">
+      {% if category %}
+        {{ category.category_name }}
+      {% else %}
+        Our Store
+      {% endif %}
+    </h2>
+  </div>
 </section>
 
 <section class="section-content padding-y">
-<div class="container">
-<div class="row">
-	<aside class="col-md-3">
-		<div class="card">
-			<article class="filter-group">
-				<header class="card-header">
-					<h6 class="title">Categories</h6>
-				</header>
-				<div class="card-body">
-					<ul class="list-menu">
-						{% for category in links %}
-							<li><a href="{% url 'show' category.slug %}">{{category.category_name}}</a></li>
-						{% endfor %}
-					</ul>
-				</div>
-			</article>
-		</div>
-	</aside>
+  <div class="container">
+    <div class="row">
 
-	<main class="col-md-9">
-		<header class="border-bottom mb-4 pb-3">
-			<div class="form-inline">
-				<span class="mr-md-auto">{{ product_count }} Items found </span>
-			</div>
-		</header>
+      <!-- Sidebar -->
+      <aside class="col-md-3">
+        <div class="card">
+          <article class="filter-group">
+            <header class="card-header">
+              <h6 class="title">Categories</h6>
+            </header>
+            <div class="card-body">
+              <ul class="list-menu">
+                {% for category in categories %}
+                  <li><a href="{% url 'show' category.slug %}">{{ category.category_name }}</a></li>
+                {% endfor %}
+              </ul>
+            </div>
+          </article>
+        </div>
+      </aside>
 
-		<div class="row">
-			{% for product in products %}
-			<div class="col-md-4">
-				<figure class="card card-product-grid">
-					<div class="img-wrap">
-						<img src="{{ product.images.url }}">
-					</div>
-					<figcaption class="info-wrap">
-						<div class="fix-height">
-							<a href="{% url 'product_detail' product.slug %}" class="title">
-								{{ product.product_name }}
-							</a>
-							<div class="price-wrap mt-2">
-								<span class="price">{{ product.price }}₮</span>
-							</div>
-						</div>
-						<a href="#" class="btn btn-block btn-primary">Add to cart</a>
-					</figcaption>
-				</figure>
-			</div>
-			{% endfor %}
-		</div>
-	</main>
-</div>
-</div>
+      <!-- Main content -->
+      <main class="col-md-9">
+
+        <header class="border-bottom mb-4 pb-3">
+          <div class="form-inline">
+            <span class="mr-md-auto">{{ product_count }} Items found </span>
+          </div>
+        </header>
+
+        <div class="row">
+          {% for product in products %}
+          <div class="col-md-4 mb-4">
+            <figure class="card card-product-grid">
+              <div class="img-wrap">
+                <a href="{% url 'product_detail' product.slug %}">
+                  <img src="{{ product.images.url }}" class="img-fluid" alt="{{ product.product_name }}">
+                </a>
+              </div>
+              <figcaption class="info-wrap">
+                <div class="fix-height">
+                  <a href="{% url 'product_detail' product.slug %}" class="title">
+                    {{ product.product_name }}
+                  </a>
+                  <div class="price-wrap mt-2">
+                    <span class="price">{{ product.price }} ₮</span>
+                  </div>
+                </div>
+
+                {% if product.stock > 0 %}
+                  <a href="{% url 'add_cart' product.id %}" class="btn btn-block btn-primary">
+                    Add to cart
+                  </a>
+                {% else %}
+                  <button class="btn btn-block btn-secondary" disabled>
+                    Out of stock
+                  </button>
+                {% endif %}
+              </figcaption>
+            </figure>
+          </div>
+          {% empty %}
+            <div class="col-12 text-center">
+              <h5>Бараа олдсонгүй.</h5>
+            </div>
+          {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        <nav class="mt-4">
+          <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+              <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
+              <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+            {% endif %}
+
+            <li class="page-item disabled">
+              <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+            </li>
+
+            {% if page_obj.has_next %}
+              <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+              <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a></li>
+            {% endif %}
+          </ul>
+        </nav>
+      </main>
+
+    </div>
+  </div>
 </section>
+
 {% endblock %}

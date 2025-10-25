@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from app import views
 from django.conf.urls.static import static
 from django.conf import settings
@@ -15,6 +15,7 @@ urlpatterns = [
     path("search_result", views.search_result, name='search_result'),
     path("signin", views.signin, name='signin'),
     path("store", views.store, name='store'),
+    path('cart/', include('carts.urls')),
 
     # slug ашиглаж detail харуулах
     path("product/<slug:slug>/", views.product_detail, name='product_detail'),
