@@ -66,9 +66,6 @@ def show_category(request, slug):
     })
 
 
-def cart(request):
-    return render(request, 'cart.html')
-
 
 def dashboard(request):
     return render(request, 'dashboard.html')
@@ -97,3 +94,8 @@ def signin(request):
 
 def place_order(request):
     return render(request, 'place_order.html')
+
+def cart_count(request):
+    cart = request.session.get('cart', [])
+    count = sum(item['qty'] for item in cart)
+    return {'cart_count': count}

@@ -6,8 +6,8 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('cart/', include('carts.urls')),
     path("", views.index, name='index'),
-    path("cart", views.cart, name='cart'),
     path("dashboard", views.dashboard, name='dashboard'),
     path("order_complete", views.order_complete, name='order_complete'),
     path("place_order", views.place_order, name='place_order'),
@@ -15,7 +15,6 @@ urlpatterns = [
     path("search_result", views.search_result, name='search_result'),
     path("signin", views.signin, name='signin'),
     path("store", views.store, name='store'),
-    path('cart/', include('carts.urls')),
 
     # slug ашиглаж detail харуулах
     path("product/<slug:slug>/", views.product_detail, name='product_detail'),
