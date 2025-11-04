@@ -3,6 +3,12 @@
 {% load static %}
 
 {% block content %}
+<style>
+	.input-spinner input.form-control {
+    width: 60px; /* эсвэл өөрт тааруулан */
+}
+
+</style>
 <section class="section-content padding-y bg">
 <div class="container">
 
@@ -49,10 +55,18 @@
 								</div>
 								<input type="text" class="form-control text-center" value="{{ item.quantity }}" readonly>
 								<div class="input-group-append">
-									<a href="{% url 'add_cart' item.product.id %}" class="btn btn-light"> 
-										<i class="fa fa-plus"></i> 
-									</a>
+									{% if item.quantity < item.product.stock %}
+										<a href="{% url 'add_cart' item.product.id %}" class="btn btn-light"> 
+											<i class="fa fa-plus"></i> 
+										</a>
+									{% else %}
+										<button class="btn btn-light" disabled data-toggle="tooltip" title="Үлдэгдэл хүрэлцэхгүй">
+											<i class="fa fa-plus"></i> 
+										</button>
+									{% endif %}
 								</div>
+
+
 							</div>
 						</div>
 					</td>

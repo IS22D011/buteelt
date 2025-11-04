@@ -25,11 +25,16 @@ def index(request):
         cursor.execute("SELECT * FROM app_category")
         categories = dict_fetchall(cursor)
 
+    # Cart-г session-аас авч байна
+    cart_items = request.session.get('cart', [])  # session-д cart байхгүй бол хоосон list
+
     return render(request, 'index.html', {
         'products': products,
         'categories': categories,
-        'product_count': len(products)
+        'product_count': len(products),
+        'cart_items': cart_items
     })
+
 
 
 def store(request):
@@ -95,7 +100,3 @@ def signin(request):
 def place_order(request):
     return render(request, 'place_order.html')
 
-def cart_count(request):
-    cart = request.session.get('cart', [])
-    count = sum(item['qty'] for item in cart)
-    return {'cart_count': count}
